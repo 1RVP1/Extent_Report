@@ -1,13 +1,12 @@
 pipeline {
     agent any
 
-    stages {
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/1RVP1/Extent_Report.git'
-            }
-        }
+    tools {
+        maven 'Maven'
+        jdk 'JDK21'
+    }
 
+    stages {
         stage('Build') {
             steps {
                 bat 'mvn clean compile'
@@ -23,9 +22,9 @@ pipeline {
         stage('Report') {
             steps {
                 publishHTML([
-                    reportDir: 'reports',
-                    reportFiles: 'extent-report.html',
-                    reportName: 'Test Report'
+                    reportDir: 'target',
+                    reportFiles: 'ExtentReport.html',
+                    reportName: 'Extent Report'
                 ])
             }
         }
